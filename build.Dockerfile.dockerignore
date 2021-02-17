@@ -1,0 +1,7 @@
+.idea/
+.circleci
+.git*
+README.md
+makeDocker.sh
+Dockerfile
+.dockerignore

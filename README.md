@@ -1,5 +1,19 @@
 # Science Parse
 
+## Fork version differences
+
+This fork adds the Dockerfile back to the project which [version 2.0.3 had](https://github.com/allenai/science-parse/tree/v2.0.3). In comparison to that docker file this project also includes a build docker file which compiles the code and exports it to the docker file that is used as the science parse server.
+
+1. [./build.Dockerfile](./build.Dockerfile) -- Docker file that compiles the code and creates the `jar` that is used in the server. [./build.Dockerfile.dockerignore](build.Dockerfile.dockerignore) is the docker ignore file for this Docker file.
+2. [Dockerfile](./Dockerfile) -- Docker file that will run the Science Parse server, this Dockerfile takes the `jar` that is compiled from the [./build.Dockerfile](./build.Dockerfile) build process. [./.dockerignore](./.dockerignore) docker ignore file for this Dockerfile.
+3. [makeDocker.sh](./makeDocker.sh) -- shell script that builds the two docker files. To run this `./makeDocker.sh` it sets the following build arguments for the two docker files:
+  1. `OPENJDK_TAG=8u282` -- uses Open JDK version 8u282
+  2. `JAVA_MEMORY=8` -- when running the Science Parse server it will use 8GB of memory through the `java -Xmx` flag.
+
+To run the Dockerfile on 127.0.0.1:8080: `docker run -p 127.0.0.1:8080:8080 --rm ucrel-science-parse:3.0.1`.
+
+## Original Introduction
+
 Science Parse parses scientific papers (in PDF form) and returns them in structured form. As of today, it supports these fields:
  * Title
  * Authors
@@ -29,11 +43,11 @@ There are three different ways to get started with SP. Each has its own document
 
 ## How to include into your own project
  
-The current version is `3.0.0`. If you want to include it in your own project, use this:
+The current version is `3.0.1`. If you want to include it in your own project, use this:
 
 For SBT:
 ```
-libraryDependencies += "org.allenai" %% "science-parse" % "3.0.0"
+libraryDependencies += "org.allenai" %% "science-parse" % "3.0.1"
 ```
 
 For Maven:
@@ -41,7 +55,7 @@ For Maven:
 <dependency>
   <groupId>org.allenai</groupId>
   <artifactId>science-parse_2.12</artifactId>
-  <version>3.0.0</version>
+  <version>3.0.1</version>
 </dependency>
 ```
 
