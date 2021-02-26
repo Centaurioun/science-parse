@@ -11,7 +11,7 @@ ARG SP_VERSION
 ARG JAVA_MEMORY
 ENV SP_VERSION $SP_VERSION
 
-COPY --from=ucrel-science-parse-builder:3.0.1 /usr/src/science_parse/server/target/scala-2.12/science-parse-server-assembly-$SP_VERSION.jar ./science-parse-server-assembly-$SP_VERSION.jar
+COPY --from=ucrel/ucrel-science-parse-builder:3.0.1 /usr/src/science_parse/server/target/scala-2.12/science-parse-server-assembly-$SP_VERSION.jar ./science-parse-server-assembly-$SP_VERSION.jar
 
 RUN java -Xmx${JAVA_MEMORY}g -jar ./science-parse-server-assembly-$SP_VERSION.jar --downloadModelOnly
 

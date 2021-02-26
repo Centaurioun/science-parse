@@ -5,9 +5,9 @@
 
 VERSION=`cat version.sbt | sed -Ee "s/version in [A-Za-z]+ := \"([0-9.]+(-SNAPSHOT)?)\"/\1/"`
 sbt server/assembly
-DOCKER_BUILDKIT=1 docker build --progress=plain -t ucrel-science-parse-builder:$VERSION \
+DOCKER_BUILDKIT=1 docker build --progress=plain -t ucrel/ucrel-science-parse-builder:$VERSION \
                                --build-arg OPENJDK_TAG=8u282 -f build.Dockerfile .
-DOCKER_BUILDKIT=1 docker build --progress=plain -t ucrel-science-parse:$VERSION \
+DOCKER_BUILDKIT=1 docker build --progress=plain -t ucrel/ucrel-science-parse:$VERSION \
                                --build-arg OPENJDK_TAG=8u282 --build-arg JAVA_MEMORY=8 \
                                --build-arg SP_VERSION=$VERSION .
 

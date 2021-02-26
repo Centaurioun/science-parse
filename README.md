@@ -2,7 +2,7 @@
 
 ## Fork version differences
 
-This fork adds the Dockerfile back to the project which [version 2.0.3 had](https://github.com/allenai/science-parse/tree/v2.0.3). In comparison to that docker file this project also includes a build docker file which compiles the code and exports it to the docker file that is used as the science parse server.
+This fork adds the Dockerfile back to the project which [version 2.0.3 had](https://github.com/allenai/science-parse/tree/v2.0.3). In comparison to that docker file this project also includes a build docker file which compiles the code and exports it to the docker file that is used as the science parse server. Additionally this version does not run as root user, it runs as a non-privileged user.
 
 1. [./build.Dockerfile](./build.Dockerfile) -- Docker file that compiles the code and creates the `jar` that is used in the server. [./build.Dockerfile.dockerignore](build.Dockerfile.dockerignore) is the docker ignore file for this Docker file.
 2. [Dockerfile](./Dockerfile) -- Docker file that will run the Science Parse server, this Dockerfile takes the `jar` that is compiled from the [./build.Dockerfile](./build.Dockerfile) build process. [./.dockerignore](./.dockerignore) docker ignore file for this Dockerfile.
@@ -10,7 +10,27 @@ This fork adds the Dockerfile back to the project which [version 2.0.3 had](http
   1. `OPENJDK_TAG=8u282` -- uses Open JDK version 8u282
   2. `JAVA_MEMORY=8` -- when running the Science Parse server it will use 8GB of memory through the `java -Xmx` flag.
 
-To run the Dockerfile on 127.0.0.1:8080: `docker run -p 127.0.0.1:8080:8080 --rm ucrel-science-parse:3.0.1`.
+The docker files were built with [docker BuildKit](https://docs.docker.com/develop/develop-images/build_enhancements/).
+
+To run the Dockerfile on 127.0.0.1:8080: `docker run -p 127.0.0.1:8080:8080 --rm ucrel/ucrel-science-parse:3.0.1`.
+
+**Note** by default it will run the science parse java server with 8GB of RAM to specify the amount of RAM the server should use change the environment variable `JAVA_MEMORY` in the following command, in this example we have changed it to use 5GB of RAM and limit the amount of RAM the docker image can have to 6GB through the docker flags `--memory` and `--memory-swap`:
+
+``` bash
+docker run -p 127.0.0.1:8080:8080 --rm --memory=6g --memory-swap=6g --env JAVA_MEMORY=5 ucrel/ucrel-science-parse:3.0.1
+```
+
+### DockerFile on Docker hub
+
+Instead of building the docker image from the repository you can get it from [UCREL's docker hub](https://hub.docker.com/r/ucrel/ucrel-science-parse):
+
+``` bash
+docker run -p 127.0.0.1:8080:8080 --rm ucrel/ucrel-science-parse:3.0.1
+```
+
+This will automatically pull `ucrel/ucrel-science-parse:3.0.1` docker image from docker hub and run it on host `127.0.0.1` at port `8080`.
+
+You can get previous version of science parse e.g. [version 2.0.3 from AllenAI docker hub.](https://hub.docker.com/r/allenai/scienceparse)
 
 ## Original Introduction
 
