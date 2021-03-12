@@ -12,12 +12,14 @@ This fork adds the Dockerfile back to the project which [version 2.0.3 had](http
 
 The docker files were built with [docker BuildKit](https://docs.docker.com/develop/develop-images/build_enhancements/).
 
-To run the Dockerfile on 127.0.0.1:8080: `docker run -p 127.0.0.1:8080:8080 --rm ucrel/ucrel-science-parse:3.0.1`.
+To run the Dockerfile on 127.0.0.1:8080: `docker run -p 127.0.0.1:8080:8080 --rm --init ucrel/ucrel-science-parse:3.0.1`.
+
+**Note** use the `--init` flag when running, [helps remove processes when exiting the container.](https://docs.docker.com/config/containers/multi-service_container/)
 
 **Note** by default it will run the science parse java server with 8GB of RAM to specify the amount of RAM the server should use change the environment variable `JAVA_MEMORY` in the following command, in this example we have changed it to use 5GB of RAM and limit the amount of RAM the docker image can have to 6GB through the docker flags `--memory` and `--memory-swap`:
 
 ``` bash
-docker run -p 127.0.0.1:8080:8080 --rm --memory=6g --memory-swap=6g --env JAVA_MEMORY=5 ucrel/ucrel-science-parse:3.0.1
+docker run -p 127.0.0.1:8080:8080 --rm --init --memory=6g --memory-swap=6g --env JAVA_MEMORY=5 ucrel/ucrel-science-parse:3.0.1
 ```
 
 ### DockerFile on Docker hub
@@ -25,7 +27,7 @@ docker run -p 127.0.0.1:8080:8080 --rm --memory=6g --memory-swap=6g --env JAVA_M
 Instead of building the docker image from the repository you can get it from [UCREL's docker hub](https://hub.docker.com/r/ucrel/ucrel-science-parse):
 
 ``` bash
-docker run -p 127.0.0.1:8080:8080 --rm ucrel/ucrel-science-parse:3.0.1
+docker run -p 127.0.0.1:8080:8080 --rm --init ucrel/ucrel-science-parse:3.0.1
 ```
 
 This will automatically pull `ucrel/ucrel-science-parse:3.0.1` docker image from docker hub and run it on host `127.0.0.1` at port `8080`.
